@@ -5,76 +5,74 @@ from io import BytesIO
 from core_utils import read_universal_file, ask_groq, create_word_report
 
 # ----------------------------------------------------
-# 🪐 CONFIGURAÇÃO ESTÉTICA PREMIUM (CYBER-MINIMALIST)
+# 🪐 CONFIGURAÇÃO ESTÉTICA PREMIUM LIGHT (ARCHI-CLEAN)
 # ----------------------------------------------------
 st.set_page_config(page_title="ARCHINTEL // LAB", page_icon="📐", layout="wide")
 
-# Correção do Erro: st.html substitui o st.markdown com unsafe_html nas novas versões
+# Tema Claro Corporativo de Alto Contraste
 st.html("""
 <style>
-    /* Fundo geral escuro profundo */
+    /* Fundo Geral Branco / Off-White */
     .stApp {
-        background-color: #0B0F19;
-        color: #E2E8F0;
+        background-color: #FAFAFA;
+        color: #1E293B;
         font-family: 'Inter', sans-serif;
     }
     
-    /* Customização da Sidebar */
+    /* Barra Lateral em Cinza Neutro Claro */
     [data-testid="stSidebar"] {
-        background-color: #05070C !important;
-        border-right: 1px solid #1E293B;
+        background-color: #F1F5F9 !important;
+        border-right: 1px solid #E2E8F0;
     }
     
-    /* Títulos em Neon Ciano Metálico */
+    /* Títulos em Azul Escuro Arquitetónico */
     h1, h2, h3, h4, h5, h6 {
-        color: #00F2FE !important;
-        font-weight: 800 !important;
+        color: #0F172A !important;
+        font-weight: 700 !important;
         letter-spacing: -0.5px;
-        text-transform: uppercase;
     }
     
-    /* Subtítulos e Labels em Dourado Champagne */
+    /* Rótulos e Labels em Cinza Escuro Técnico */
     .stSlider label, .stSelectbox label, .stTextInput label, .stTextArea label, .stFileUploader label {
-        color: #F59E0B !important;
+        color: #334155 !important;
         font-weight: 600 !important;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 1px;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
     }
 
-    /* Input Boxes Estilo Futurista */
+    /* Input Boxes com Contraste Limpo */
     div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="textarea"] {
-        background-color: #141B2D !important;
-        border: 1px solid #2D3748 !important;
-        border-radius: 4px !important;
-        color: #FFFFFF !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #CBD5E1 !important;
+        border-radius: 6px !important;
+        color: #0F172A !important;
     }
     
-    /* Botões Premium com Efeito Glow */
+    /* Botões Premium com Azul Intenso e Texto Branco */
     .stButton>button {
-        background: linear-gradient(90deg, #0072FF 0%, #00F2FE 100%) !important;
-        color: #05070C !important;
-        font-weight: bold !important;
+        background: linear-gradient(90deg, #1E40AF 0%, #3B82F6 100%) !important;
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
         border: none !important;
-        border-radius: 4px !important;
+        border-radius: 6px !important;
         padding: 0.6rem 2rem !important;
-        box-shadow: 0px 4px 15px rgba(0, 242, 254, 0.4);
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        box-shadow: 0px 2px 8px rgba(59, 130, 246, 0.3);
+        transition: all 0.2s ease;
     }
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0px 6px 20px rgba(0, 242, 254, 0.7);
+        transform: translateY(-1px);
+        box-shadow: 0px 4px 12px rgba(59, 130, 246, 0.5);
     }
     
-    /* Caixas de Chat e Resultados */
+    /* Caixas de Chat e Resultados em Fundo Branco Isolado */
     .block-container .element-container div.stMarkdown {
-        background-color: #0F172A;
+        background-color: #FFFFFF;
         padding: 1.5rem;
-        border-left: 4px solid #00F2FE;
-        border-radius: 4px;
+        border-left: 4px solid #3B82F6;
+        border-radius: 6px;
+        box-shadow: 0px 1px 3px rgba(0,0,0,0.05);
         margin-bottom: 1rem;
+        color: #1E293B !important;
     }
 </style>
 """)
@@ -203,7 +201,6 @@ elif modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
     uploaded_data = st.file_uploader("Carregar Folha de Dados (Excel .xlsx, .csv, ou Relatórios)", type=["xlsx", "csv", "docx", "pdf", "txt"])
     
     if uploaded_data:
-        # Se for planilha, mostra uma pré-visualização futurista
         if uploaded_data.name.endswith('.xlsx') or uploaded_data.name.endswith('.csv'):
             df = pd.read_excel(uploaded_data) if uploaded_data.name.endswith('.xlsx') else pd.read_csv(uploaded_data)
             st.markdown("### // Amostra de Dados Brutos Identificada")
@@ -250,7 +247,7 @@ elif modulo == "🏗️ MÓDULO 5: Copiloto de Cadernos":
         prazos_criticos = st.text_input("Quais os prazos críticos e marcos de vistoria?")
         penalidades = st.text_input("Quais as multas ou penalizações estipuladas por dia de atraso?")
         
-        if st.button("Gerar Esqueleto Técnico Blindado"):
+        if st.button("Gere um Caderno de Encargos profissional"):
             with st.spinner("A redigir caderno de encargos oficial..."):
                 prompt_gen = f"Gere um Caderno de Encargos profissional dividindo em Secções Jurídicas e Especificações Técnicas. Objeto: {obj_contratacao}, Prazos: {prazos_criticos}, Penalidades: {penalidades}."
                 caderno_gerado = ask_groq("Atua como um Engenheiro Fiscalizador e Advogado Técnico.", prompt_gen)
