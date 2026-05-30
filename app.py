@@ -9,8 +9,8 @@ from core_utils import read_universal_file, ask_groq, create_word_report
 # ----------------------------------------------------
 st.set_page_config(page_title="ARCHINTEL // LAB", page_icon="📐", layout="wide")
 
-# Custom CSS para hackear o Streamlit e deixá-lo com aspeto de software de milhões
-st.markdown("""
+# Correção do Erro: st.html substitui o st.markdown com unsafe_html nas novas versões
+st.html("""
 <style>
     /* Fundo geral escuro profundo */
     .stApp {
@@ -26,7 +26,7 @@ st.markdown("""
     }
     
     /* Títulos em Neon Ciano Metálico */
-    h1, h2, h3 {
+    h1, h2, h3, h4, h5, h6 {
         color: #00F2FE !important;
         font-weight: 800 !important;
         letter-spacing: -0.5px;
@@ -58,14 +58,14 @@ st.markdown("""
         border: none !important;
         border-radius: 4px !important;
         padding: 0.6rem 2rem !important;
-        box-shadow: 0vw 0vw 1vw rgba(0, 242, 254, 0.4);
+        box-shadow: 0px 4px 15px rgba(0, 242, 254, 0.4);
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
     .stButton>button:hover {
         transform: translateY(-2px);
-        box-shadow: 0vw 0vw 2vw rgba(0, 242, 254, 0.8);
+        box-shadow: 0px 6px 20px rgba(0, 242, 254, 0.7);
     }
     
     /* Caixas de Chat e Resultados */
@@ -77,7 +77,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
 </style>
-""", unsafe_html=True)
+""")
 
 # ----------------------------------------------------
 # 💾 PERSISTÊNCIA SIMPLES EM MEMÓRIA (PROMPTS DE OURO)
