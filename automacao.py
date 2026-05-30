@@ -12,53 +12,61 @@ URL = "https://plataforma-arquitetura.streamlit.app/"
 def acordar_streamlit():
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] A aceder à plataforma...")
     
+    # Configuração robusta para o ambiente Linux do GitHub Actions
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless") # Ativa para rodar em background no GitHub/Servidor
+    options.add_argument("--headless")  # Obrigatório para rodar no GitHub Actions
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")  # Simula uma resolução de ecrã normal
     
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     
     try:
         driver.get(URL)
         
-        # Aguarda um pouco para a página de suspensão carregar o botão
-        print("A verificar se a app está a dormir...")
-        time.sleep(8)
+        # Aguarda que a página carregue o estado inicial
+        print("A aguardar carregamento da página (10s)...")
+        time.sleep(10)
         
-        # Tentativa 1: Procurar pelo botão que contém o texto "Wake up"
-        # O Streamlit costuma usar letras maiúsculas/minúsculas específicas, usamos contains para garantir
+        # --- TENTATIVA 1: Procurar pelo botão com o texto "Wake up" ---
         try:
-            print("A tentar localizar o botão 'Wake up'...")
+            print("A tentar localizar o botão 'Wake up' pelo texto...")
             botao_wake_up = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Wake up') or contains(text(), 'Wake up app')]"))
             )
-            
             botao_wake_up.click()
-            print("Botão clicado! A app está a acordar...")
-            
-            # Como a app demora um pouco a iniciar após acordar, esperamos 15-20 segundos
-            time.sleep(20)
-            print("App deverá estar ativa agora.")
+            print("Botão 'Wake up' encontrado e clicado! A app está a acordar...")
+            time.sleep(20)  # Aguarda a app iniciar após o clique
+            print("Processo concluído com sucesso.")
+            return
             
         except Exception:
-            # Tentativa 2: Se não encontrar pelo texto (por causa de atualizações de idioma), tenta pelo seletor de botão genérico do ecrã de standby
-            print("Botão de texto não encontrado. A tentar seletor alternativo...")
+            print("Botão de texto 'Wake up' não foi encontrado. A tentar seletor alternativo...")
+
+        # --- TENTATIVA 2: Seletor alternativo por componentes comuns do Streamlit ---
+        try:
             botao_alt = WebDriverWait(driver, 5).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "div[data-testid='stStatusWidget'] button, .stButton button"))
             )
             botao_alt.click()
-            print("Botão alternativo clicado.")
+            print("Botão alternativo estrutural clicado! A app está a acordar...")
             time.sleep(20)
+            print("Processo concluído com sucesso.")
+            return
+            
+        except Exception:
+            print("Nenhum botão de suspensão foi encontrado.")
+            
+        # Se chegou aqui, a app provavelmente já estava acordada e funcional
+        print("A app já parece estar acordada e ativa. Nada a fazer.")
 
     except Exception as e:
-        print(f"A app já estava acordada ou ocorreu um erro: {e}")
-        # Se quiseres perceber o que o robô estava a ver, descomenta a linha abaixo para guardar uma imagem:
-        # driver.save_screenshot("estado_da_app.png")
+        print(f"Ocorreu um erro inesperado: {e}")
         
     finally:
         driver.quit()
-        print("Sessão encerrada.\n")
+        print("Sessão do navegador encerrada.\n")
 
 if __name__ == "__main__":
     acordar_streamlit()
