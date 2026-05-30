@@ -101,28 +101,37 @@ if modulo == "🟦 MÓDULO 1: Triagem Inteligente":
     
     with col1:
         uploaded_file = st.file_uploader("Carregar Ficheiro (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
-        variaveis = st.text_area("Variáveis Específicas para Caçar (Separadas por vírgula):", 
-                                 value="Valor Total, Prazo de Execução, Penalizações por Atraso, Entidades Envolvidas")
+        
+        # CAMPO ATUALIZADO: Livre para escreveres o que quiseres
+        diretrizes = st.text_area(
+            "Instruções e Diretrizes para a Análise (Texto Livre):", 
+            value="Faça uma análise crítica e minuciosa deste documento, destacando os pontos mais importantes, eventuais riscos identificados e sugerindo as próximas ações recomendadas.",
+            height=180
+        )
         
         btn_triagem = st.button("Executar Extração Neural")
         
     with col2:
-        st.subheader("// Variáveis Isoladas & Análise")
+        st.subheader("// Parecer Técnico & Análise Automática")
         if btn_triagem and uploaded_file:
             with st.spinner("A processar matriz de texto..."):
                 texto = read_universal_file(uploaded_file)
-                sys_prompt = f"És um analista sénior de projetos. Extrai do documento as seguintes variáveis e dá um parecer crítico estruturado: {variaveis}"
-                resposta = ask_groq(sys_prompt, f"Documento:\n\n{texto}")
+                
+                # O prompt agora junta o documento à tua instrução livre de forma orgânica
+                sys_prompt = "És um consultor e analista sénior de projetos de engenharia e arquitetura. Executa uma análise inteligente de alto nível baseando-te estritamente nas instruções fornecidas pelo utilizador."
+                prompt_usuario = f"Instruções do Utilizador:\n{diretrizes}\n\n---\n\nDocumento para Analisar:\n{texto}"
+                
+                resposta = ask_groq(sys_prompt, prompt_usuario)
                 
                 st.session_state.last_triagem = resposta
                 st.markdown(resposta)
                 
                 # Geração de Relatório Word
-                report_bio = create_word_report("Relatório de Triagem Inteligente", resposta)
+                report_bio = create_word_report("Relatório de Análise Inteligente", resposta)
                 st.download_button(
                     label="📥 Descarregar Relatório Oficial (.docx)",
                     data=report_bio,
-                    file_name=f"Relatorio_Triagem_{uploaded_file.name}.docx",
+                    file_name=f"Analise_Inteligente_{uploaded_file.name}.docx",
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 )
 
