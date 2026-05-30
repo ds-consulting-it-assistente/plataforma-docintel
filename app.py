@@ -182,47 +182,55 @@ elif modulo == "🟩 MÓDULO 3: Agente IA Consultor":
                 st.markdown(res)
         st.session_state.chat_arquitetura_history.append({"role": "assistant", "content": res})
 
+
 # ----------------------------------------------------
 # 🟪 MÓDULO 4: AUDITORIA PREDITIVA (BI)
 # ----------------------------------------------------
-elif modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
+if modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
     st.title("🟪 BUSINESS INTELLIGENCE & PREVISÃO")
     st.caption("Conversão de dados brutos de planilhas em relatórios estratégicos de desvio e risco.")
     
-    uploaded_data = st.file_uploader("Carregar Folha de Dados (Excel .xlsx, .csv, ou Relatórios)", type=["xlsx", "csv", "docx", "pdf", "txt"])
+    col1, col2 = st.columns([1, 1.5])
     
-    if uploaded_data:
-        if uploaded_data.name.endswith('.xlsx') or uploaded_data.name.endswith('.csv'):
-            df = pd.read_excel(uploaded_data) if uploaded_data.name.endswith('.xlsx') else pd.read_csv(uploaded_data)
-            st.markdown("### // Amostra de Dados Brutos Identificada")
-            st.dataframe(df.head(5), use_container_width=True)
-            text_context = df.to_string()
-        else:
-            text_context = read_universal_file(uploaded_data)
-            st.text(text_context[:500] + "... [Texto Cortado para Visualização]")
-
-        st.markdown("---")
-        st.markdown("🤖 **Proatividade da IA:**")
-        st.info("Identifiquei a sua matriz de dados. Gostaria que eu fizesse uma auditoria focada em Previsões de Desvio de Custos/Prazos, Análise de Omissões Contratuais ou Sugestões de Otimização?")
+    with col1:
+        uploaded_file = st.file_uploader(
+            "Carregar Folha de Dados (Excel .xlsx, .csv, ou Relatórios)", 
+            type=["xlsx", "csv", "docx", "pdf", "txt"]
+        )
         
-        foco_analise = st.selectbox("Escolha o Foco Estratégico:", ["Previsões de Desvio e Derrapagem Financeira", "Análise de Omissões Técnicas/Seguros", "Otimização de Margens e Negociação"])
+        # NOVA CAIXA DE TEXTO LIVRE PARA INTEGRAÇÃO COM IA
+        diretrizes_bi = st.text_area(
+            "O que deseja analisar ou caçar nestes dados? (Texto Livre):",
+            value="Faça uma auditoria preditiva completa. Identifique anomalias financeiras, projeções de desvio de prazo e aponte os cenários de maior risco.",
+            height=150
+        )
         
-        if st.button("Gerar Auditoria Preditiva de Luxo"):
-            with st.spinner("A rodar modelos preditivos estatísticos..."):
-                sys_bi = f"Atua como um Auditor Preditivo de Obras. Analisa os dados fornecidos focando estritamente em: {foco_analise}. Forneça estimativas lógicas de desvio em percentagem (X%) e indique quais as fases com maior risco."
-                analise_bi = ask_groq(sys_bi, text_context)
+        btn_bi = st.button("Executar Análise Preditiva")
+        
+    with col2:
+        st.subheader("// Diagnóstico de Risco & Tendências")
+        if btn_bi and uploaded_file:
+            with st.spinner("A ler matriz de dados e a calcular cenários..."):
+                # Leitura universal do conteúdo do ficheiro
+                conteudo_dados = read_universal_file(uploaded_file)
                 
-                st.markdown(analise_bi)
+                # Construção do Prompt Mestre para o Especialista em BI
+                sys_prompt = "És um Engenheiro de BI e Auditor Preditivo Sénior. A tua missão é cruzar os dados brutos fornecidos com as diretrizes do utilizador, calculando riscos, desvios e sugerindo mitigações lógicas."
+                prompt_usuario = f"Diretrizes de Análise:\n{diretrizes_bi}\n\n---\n\nDados Extraídos do Ficheiro:\n{conteudo_dados}"
                 
-                # Download
-                report_bi_doc = create_word_report(f"Auditoria Preditiva - {foco_analise}", analise_bi)
+                # Chamada ao modelo atualizado da Groq
+                resposta_bi = ask_groq(sys_prompt, prompt_usuario)
+                
+                st.markdown(resposta_bi)
+                
+                # Botão para extrair o relatório executivo em Word
+                report_bio = create_word_report("Auditoria Preditiva e BI", resposta_bi)
                 st.download_button(
-                    label="📥 Descarregar Relatório Executivo (.docx)",
-                    data=report_bi_doc,
-                    file_name=f"Auditoria_BI_{foco_analise.replace(' ', '_')}.docx",
+                    label="📥 Descarregar Relatório BI (.docx)",
+                    data=report_bio,
+                    file_name=f"Auditoria_BI_{uploaded_file.name}.docx",
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 )
-
 # ----------------------------------------------------
 # 🏗️ MÓDULO 5: COPILOTO DE CADERNOS
 # ----------------------------------------------------
