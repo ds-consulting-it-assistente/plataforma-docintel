@@ -45,6 +45,19 @@ def read_universal_file(uploaded_file):
 
 def ask_groq(system_prompt, user_content):
     client = get_groq_client()
+    
+    # Estratégia de Proteção contra Rate Limits (Tier Gratuita da Groq)
+    # Aproximadamente 1 token = 4 caracteres. 35.000 caracteres garante segurança abaixo dos 10k tokens.
+    max_chars = 35000 
+    if len(user_content) > max_chars:
+        # Se o PDF for gigante, extrai o início (contexto/escopo) e o fim (valores/cláusulas)
+        metade = int(max_chars / 2)
+        user_content = (
+            user_content[:metade] + 
+            "\n\n[... TEXTO INTERMÉDIO APAGADO PARA EVITAR LIMITE DE TOKENS DA API GRÁTIS ...]\n\n" + 
+            user_content[-metade:]
+        )
+
     try:
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
