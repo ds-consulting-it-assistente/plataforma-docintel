@@ -95,8 +95,8 @@ if "chat_arquitetura_history" not in st.session_state:
 # ----------------------------------------------------
 # 🧭 NAVEGAÇÃO CENTRAL (SIDEBAR FUTURISTA)
 # ----------------------------------------------------
-st.sidebar.markdown("<h2 style='color:#00F2FE; text-align:center;'>ARCHINTEL // HUB</h2>", unsafe_html=True)
-st.sidebar.markdown("<p style='text-align:center; font-size:0.8rem; color:#64748B;'>OS SYSTEM V1.0</p>", unsafe_html=True)
+st.sidebar.title("ARCHINTEL // HUB")
+st.sidebar.caption("OS SYSTEM V1.0")
 st.sidebar.markdown("---")
 
 modulo = st.sidebar.radio(
