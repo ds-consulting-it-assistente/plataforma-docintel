@@ -138,25 +138,62 @@ if modulo == "🟦 MÓDULO 1: Triagem Inteligente":
 # ----------------------------------------------------
 # 🟩 MÓDULO 2: ENGENHARIA DE PROMPTS
 # ----------------------------------------------------
-elif modulo == "🟩 MÓDULO 2: Engenharia de Prompts":
+if modulo == "MÓDULO 2: Engenharia de Prompts":
     st.title("🟩 BIBLIOTECA DE PROMPTS DE OURO")
-    st.caption("Armazenamento e replicação instantânea de diretrizes intelectuais do gabinete.")
+    st.caption("Armazenamento permanente e consulta de diretrizes intelectuais do gabinete.")
     
-    # Criar novo prompt
-    with st.expander("➕ CADASTRAR NOVA DIRETRIZ TÉCNICA"):
-        novo_titulo = st.text_input("Título do Template")
-        novo_prompt = st.text_area("Comando de Engenharia:")
-        if st.button("Sincronizar na Memória"):
-            if novo_titulo and novo_prompt:
-                st.session_state.prompts_biblioteca[novo_titulo] = novo_prompt
-                st.success(f"Diretriz '{novo_titulo}' injetada com sucesso.")
-                st.rerun()
+    st.subheader("// Templates de Engenharia & Auditoria (Prontos a Usar)")
+    
+    with st.expander("🔍 1. Auditoria de Margem de Obra", expanded=False):
+        st.code("Analise os custos deste orçamento e encontre os 3 itens com maior probabilidade de superfaturamento ou desvio técnico.", language="text")
+        
+    with st.expander("🪟 2. Conformidade de Caixilharia", expanded=False):
+        st.code("Verifique se as especificações de vidros e caixilharias atendem aos requisitos de isolamento acústico e térmico classe A.", language="text")
 
-    st.markdown("### Templates Operacionais Ativos")
-    for tit, pr in list(st.session_state.prompts_biblioteca.items()):
-        st.markdown(f"**⚡ {tit}**")
-        st.code(pr, language="text")
+    st.write("---")
+    st.subheader("// 🎨 NOVOS TEMPLATES MESTRE PARA GERAÇÃO DE IMAGENS")
+    st.info("💡 Copia o esqueleto abaixo e substitui as variáveis entre parêntesis retos [ ] no teu motor de IA favorito.")
 
+    # NOVO TEMPLATE: ILUMINAÇÃO DE LUXO
+    with st.expander("💡 TEMPLATE: Iluminação Arquitetónica de Luxo (Lighting Design)", expanded=True):
+        prompt_luz = (
+            "Uma fotografia de arquitetura fotorrealista de alta definição e nível premium de um [ESPAÇO], localizado em Portugal. "
+            "O foco principal é um projeto de iluminação complexo e multi-camadas de alto padrão. No teto, [LUZ_TETO] cria um ambiente sofisticado. "
+            "Focos direcionais de trilha com [TEMPERATURA_COR] e alto CRI iluminam com precisão [ELEMENTO_DE_DESTAQUE]. "
+            "Uma luminária decorativa do tipo [LUMINÁRIA_DESIGN] está posicionada sobre [ZONA_DE_TRABALHO]. "
+            "A atmosfera geral é cinematográfica e executiva, com sombras volumétricas suaves e excelente contraste entre luz e sombra. "
+            "Através das janelas panorâmicas, a iluminação exterior é de [HORA_DO_DIA]. Renderização profissional, fotorrealismo extremo, "
+            "ray-tracing, pós-processamento arquitetónico detalhado, 8K, qualidade de portfólio."
+        )
+        st.text_area("Esqueleto do Prompt (Copia Daqui):", value=prompt_luz, height=140)
+        
+        st.markdown("""
+        **Guia de Preenchimento Rápido:**
+        * `[ESPAÇO]`: ex: *sala de reuniões minimalista*, *átrio com pé-direito duplo*
+        * `[LUZ_TETO]`: ex: *perfis de LED lineares*, *sancas de luz indireta âmbar*
+        * `[TEMPERATURA_COR]`: ex: *2700K (luz quente)*, *4000K (luz neutra)*
+        * `[ELEMENTO_DE_DESTAQUE]`: ex: *uma maquete de vidro sobre a mesa central*
+        * `[LUMINÁRIA_DESIGN]`: ex: *pendente linear em latão escovado*
+        """)
+
+    # NOVO TEMPLATE: 2D PARA 3D
+    with st.expander("📐 TEMPLATE: Conversão de Projeto 2D para Maquete 3D Volumétrica", expanded=False):
+        prompt_3d = (
+            "Uma visualização conceitual fotorrealista e tecnológica que captura o processo de transformação de design de 2D para 3D. "
+            "Sobre uma mesa limpa de estúdio de engenharia feita de [MATERIAL_MESA], um ecrã digital ou tablet exibe de forma nítida uma planta baixa técnica em 2D de um [TIPO_DE_PROJETO]. "
+            "Emerindo de forma volumétrica e tridimensional diretamente de cima do ecrã, projeta-se uma maquete 3D detalhada com volumetria realista da mesma estrutura, exibindo [ESTILO_ARQUITETÓNICO]. "
+            "A transição entre as linhas geométricas do plano horizontal e os volumes verticais em 3D é visível e fluida. "
+            "O ambiente do estúdio em redor apresenta [DETALHES_AMBIENTE]. Atmosfera premium de inovação tecnológica, iluminação de foco focada na maquete, renderização 8K, profundidade de campo cinematográfica."
+        )
+        st.text_area("Esqueleto do Prompt (Copia Daqui):", value=prompt_3d, height=140)
+        
+        st.markdown("""
+        **Guia de Preenchimento Rápido:**
+        * `[MATERIAL_MESA]`: ex: *concreto escovado cinza*, *madeira de carvalho maciça*
+        * `[TIPO_DE_PROJETO]`: ex: *moradia contemporânea com piscina*, *edifício de 3 pisos*
+        * `[ESTILO_ARQUITETÓNICO]`: ex: *linhas retas minimalistas e grandes panos de vidro*
+        * `[DETALHES_AMBIENTE]`: ex: *óculos VR e amostras de materiais ao lado*
+        """)
 # ----------------------------------------------------
 # 🟩 MÓDULO 3: AGENTE IA CONSULTOR
 # ----------------------------------------------------
