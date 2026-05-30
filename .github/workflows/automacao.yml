@@ -1,0 +1,31 @@
+name: Executar Automação Streamlit
+
+on:
+  schedule:
+    # Em Portugal (WEST), 00:00 é 23:00 UTC (do dia anterior) e 12:00 é 11:00 UTC.
+    - cron: '0 11,23 * * *' 
+  workflow_dispatch: # Permite correr manualmente pelo botão no GitHub
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Instalar Google Chrome (Necessário para o Selenium)
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
+
+    - name: Instalar dependências
+      run: |
+        pip install selenium webdriver-manager
+
+    - name: Executar Script
+      run: python automacao.py
