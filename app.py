@@ -59,6 +59,7 @@ st.html("""
     }
 </style>
 """)
+
 # ----------------------------------------------------
 # 💾 PERSISTÊNCIA SIMPLES EM MEMÓRIA (PROMPTS DE OURO)
 # ----------------------------------------------------
@@ -102,7 +103,6 @@ if modulo == "🟦 MÓDULO 1: Triagem Inteligente":
     with col1:
         uploaded_file = st.file_uploader("Carregar Ficheiro (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
         
-        # CAMPO ATUALIZADO: Livre para escreveres o que quiseres
         diretrizes = st.text_area(
             "Instruções e Diretrizes para a Análise (Texto Livre):", 
             value="Faça uma análise crítica e minuciosa deste documento, destacando os pontos mais importantes, eventuais riscos identificados e sugerindo as próximas ações recomendadas.",
@@ -117,7 +117,6 @@ if modulo == "🟦 MÓDULO 1: Triagem Inteligente":
             with st.spinner("A processar matriz de texto..."):
                 texto = read_universal_file(uploaded_file)
                 
-                # O prompt agora junta o documento à tua instrução livre de forma orgânica
                 sys_prompt = "És um consultor e analista sénior de projetos de engenharia e arquitetura. Executa uma análise inteligente de alto nível baseando-te estritamente nas instruções fornecidas pelo utilizador."
                 prompt_usuario = f"Instruções do Utilizador:\n{diretrizes}\n\n---\n\nDocumento para Analisar:\n{texto}"
                 
@@ -126,7 +125,6 @@ if modulo == "🟦 MÓDULO 1: Triagem Inteligente":
                 st.session_state.last_triagem = resposta
                 st.markdown(resposta)
                 
-                # Geração de Relatório Word
                 report_bio = create_word_report("Relatório de Análise Inteligente", resposta)
                 st.download_button(
                     label="📥 Descarregar Relatório Oficial (.docx)",
@@ -136,9 +134,9 @@ if modulo == "🟦 MÓDULO 1: Triagem Inteligente":
                 )
 
 # ----------------------------------------------------
-# 🟩 MÓDULO 2: ENGENHARIA DE PROMPTS
+# 🟩 MÓDULO 2: ENGENHARIA DE PROMPTS (CORRIGIDO!)
 # ----------------------------------------------------
-if modulo == "MÓDULO 2: Engenharia de Prompts":
+elif modulo == "🟩 MÓDULO 2: Engenharia de Prompts":
     st.title("🟩 BIBLIOTECA DE PROMPTS DE OURO")
     st.caption("Armazenamento permanente e consulta de diretrizes intelectuais do gabinete.")
     
@@ -161,9 +159,9 @@ if modulo == "MÓDULO 2: Engenharia de Prompts":
             "O foco principal é um projeto de iluminação complexo e multi-camadas de alto padrão. No teto, [LUZ_TETO] cria um ambiente sofisticado. "
             "Focos direcionais de trilha com [TEMPERATURA_COR] e alto CRI iluminam com precisão [ELEMENTO_DE_DESTAQUE]. "
             "Uma luminária decorativa do tipo [LUMINÁRIA_DESIGN] está posicionada sobre [ZONA_DE_TRABALHO]. "
-            "A atmosfera geral é cinematográfica e executiva, com sombras volumétricas suaves e excelente contraste entre luz e sombra. "
+            "A atmosfera geral é cinematográfica e executiva, com sombras volumétricas suaves e excelente contraste entre luz e shadow. "
             "Através das janelas panorâmicas, a iluminação exterior é de [HORA_DO_DIA]. Renderização profissional, fotorrealismo extremo, "
-            "ray-tracing, pós-processamento arquitetónico detalhado, 8K, qualidade de portfólio."
+            "ray-tracing, pós-processamento arquitetónico detalhado, 8K, quality de portfólio."
         )
         st.text_area("Esqueleto do Prompt (Copia Daqui):", value=prompt_luz, height=140)
         
@@ -191,9 +189,10 @@ if modulo == "MÓDULO 2: Engenharia de Prompts":
         **Guia de Preenchimento Rápido:**
         * `[MATERIAL_MESA]`: ex: *concreto escovado cinza*, *madeira de carvalho maciça*
         * `[TIPO_DE_PROJETO]`: ex: *moradia contemporânea com piscina*, *edifício de 3 pisos*
-        * `[ESTILO_ARQUITETÓNICO]`: ex: *linhas retas minimalistas e grandes panos de vidro*
+        * `[ESTILO_ARQUITETÓNICO]`: ex: *lines retas minimalistas e grandes panos de vidro*
         * `[DETALHES_AMBIENTE]`: ex: *óculos VR e amostras de materiais ao lado*
         """)
+
 # ----------------------------------------------------
 # 🟩 MÓDULO 3: AGENTE IA CONSULTOR
 # ----------------------------------------------------
@@ -201,7 +200,6 @@ elif modulo == "🟩 MÓDULO 3: Agente IA Consultor":
     st.title("🟩 AGENTE IA: CONSULTOR DE ARQUITETURA")
     st.caption("Brainstorming instantâneo sobre volumetria, materiais inovadores, iluminação e custos por m².")
     
-    # Mostrar histórico
     for msg in st.session_state.chat_arquitetura_history:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
@@ -219,11 +217,10 @@ elif modulo == "🟩 MÓDULO 3: Agente IA Consultor":
                 st.markdown(res)
         st.session_state.chat_arquitetura_history.append({"role": "assistant", "content": res})
 
-
 # ----------------------------------------------------
-# 🟪 MÓDULO 4: AUDITORIA PREDITIVA (BI)
+# 🟪 MÓDULO 4: AUDITORIA PREDITIVA (BI) (CORRIGIDO!)
 # ----------------------------------------------------
-if modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
+elif modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
     st.title("🟪 BUSINESS INTELLIGENCE & PREVISÃO")
     st.caption("Conversão de dados brutos de planilhas em relatórios estratégicos de desvio e risco.")
     
@@ -235,7 +232,6 @@ if modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
             type=["xlsx", "csv", "docx", "pdf", "txt"]
         )
         
-        # NOVA CAIXA DE TEXTO LIVRE PARA INTEGRAÇÃO COM IA
         diretrizes_bi = st.text_area(
             "O que deseja analisar ou caçar nestes dados? (Texto Livre):",
             value="Faça uma auditoria preditiva completa. Identifique anomalias financeiras, projeções de desvio de prazo e aponte os cenários de maior risco.",
@@ -248,19 +244,14 @@ if modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
         st.subheader("// Diagnóstico de Risco & Tendências")
         if btn_bi and uploaded_file:
             with st.spinner("A ler matriz de dados e a calcular cenários..."):
-                # Leitura universal do conteúdo do ficheiro
                 conteudo_dados = read_universal_file(uploaded_file)
                 
-                # Construção do Prompt Mestre para o Especialista em BI
                 sys_prompt = "És um Engenheiro de BI e Auditor Preditivo Sénior. A tua missão é cruzar os dados brutos fornecidos com as diretrizes do utilizador, calculando riscos, desvios e sugerindo mitigações lógicas."
                 prompt_usuario = f"Diretrizes de Análise:\n{diretrizes_bi}\n\n---\n\nDados Extraídos do Ficheiro:\n{conteudo_dados}"
                 
-                # Chamada ao modelo atualizado da Groq
                 resposta_bi = ask_groq(sys_prompt, prompt_usuario)
-                
                 st.markdown(resposta_bi)
                 
-                # Botão para extrair o relatório executivo em Word
                 report_bio = create_word_report("Auditoria Preditiva e BI", resposta_bi)
                 st.download_button(
                     label="📥 Descarregar Relatório BI (.docx)",
@@ -268,8 +259,9 @@ if modulo == "🟪 MÓDULO 4: Auditoria Preditiva (BI)":
                     file_name=f"Auditoria_BI_{uploaded_file.name}.docx",
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 )
+
 # ----------------------------------------------------
-# 🏗️ MÓDULO 5: COPILOTO DE CADERNOS
+# 🏗️ MÓDULO 5: COPILOTO DE CADERNOS (CORRIGIDO!)
 # ----------------------------------------------------
 elif modulo == "🏗️ MÓDULO 5: Copiloto de Cadernos":
     st.title("🏗️ CRIAÇÃO & REVISÃO DE CADERNOS DE ENCARGOS")
