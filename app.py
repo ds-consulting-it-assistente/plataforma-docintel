@@ -9,74 +9,56 @@ from core_utils import read_universal_file, ask_groq, create_word_report
 # ----------------------------------------------------
 st.set_page_config(page_title="ARCHINTEL // LAB", page_icon="📐", layout="wide")
 
-# Tema Claro Corporativo de Alto Contraste
+# Forçar Tema Claro Puro de Alto Contraste
 st.html("""
 <style>
-    /* Fundo Geral Branco / Off-White */
-    .stApp {
-        background-color: #FAFAFA;
-        color: #1E293B;
-        font-family: 'Inter', sans-serif;
+    /* Fundo Geral e Cor de Texto Humana */
+    .stApp, [data-testid="stAppViewContainer"] {
+        background-color: #FAFAFA !important;
+        color: #1E293B !important;
+        font-family: 'Inter', sans-serif !important;
     }
     
-    /* Barra Lateral em Cinza Neutro Claro */
+    /* Forçar caixas de chat e blocos a serem brancos puros */
+    .block-container .element-container div.stMarkdown, 
+    [data-testid="stChatMessage"] {
+        background-color: #FFFFFF !important;
+        color: #1E293B !important;
+        border: 1px solid #E2E8F0 !important;
+        border-left: 5px solid #1E40AF !important;
+        border-radius: 8px !important;
+        box-shadow: 0px 2px 4px rgba(0,0,0,0.02) !important;
+    }
+    
+    /* Barra Lateral Limpa */
     [data-testid="stSidebar"] {
-        background-color: #F1F5F9 !important;
-        border-right: 1px solid #E2E8F0;
+        background-color: #F8FAFC !important;
+        border-right: 1px solid #E2E8F0 !important;
     }
     
     /* Títulos em Azul Escuro Arquitetónico */
-    h1, h2, h3, h4, h5, h6 {
+    h1, h2, h3, h4, h5, h6, [data-testid="stSidebar"] h1 {
         color: #0F172A !important;
         font-weight: 700 !important;
-        letter-spacing: -0.5px;
     }
     
-    /* Rótulos e Labels em Cinza Escuro Técnico */
-    .stSlider label, .stSelectbox label, .stTextInput label, .stTextArea label, .stFileUploader label {
-        color: #334155 !important;
-        font-weight: 600 !important;
-        font-size: 0.85rem;
-        letter-spacing: 0.5px;
-    }
-
-    /* Input Boxes com Contraste Limpo */
-    div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="textarea"] {
+    /* Inputs visíveis */
+    div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="textarea"], .stChatInputContainer {
         background-color: #FFFFFF !important;
         border: 1px solid #CBD5E1 !important;
-        border-radius: 6px !important;
         color: #0F172A !important;
     }
-    
-    /* Botões Premium com Azul Intenso e Texto Branco */
+
+    /* Botão Azul Executivo */
     .stButton>button {
         background: linear-gradient(90deg, #1E40AF 0%, #3B82F6 100%) !important;
         color: #FFFFFF !important;
         font-weight: 600 !important;
         border: none !important;
         border-radius: 6px !important;
-        padding: 0.6rem 2rem !important;
-        box-shadow: 0px 2px 8px rgba(59, 130, 246, 0.3);
-        transition: all 0.2s ease;
-    }
-    .stButton>button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0px 4px 12px rgba(59, 130, 246, 0.5);
-    }
-    
-    /* Caixas de Chat e Resultados em Fundo Branco Isolado */
-    .block-container .element-container div.stMarkdown {
-        background-color: #FFFFFF;
-        padding: 1.5rem;
-        border-left: 4px solid #3B82F6;
-        border-radius: 6px;
-        box-shadow: 0px 1px 3px rgba(0,0,0,0.05);
-        margin-bottom: 1rem;
-        color: #1E293B !important;
     }
 </style>
 """)
-
 # ----------------------------------------------------
 # 💾 PERSISTÊNCIA SIMPLES EM MEMÓRIA (PROMPTS DE OURO)
 # ----------------------------------------------------
